@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetica Lab - Wallpaper Generator</title>
+    <meta name="description" content="Create aesthetic wallpapers with custom text, preview them live, and download them.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&family=Outfit:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- html2canvas for downloading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Floating Animated Background Entities -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+
+        <header>
+            <h1 class="glow-text">Aesthetica Lab</h1>
+            <p class="tagline">Create your vibe</p>
+        </header>
+
+        <main>
+            <!-- Live Preview Area -->
+            <section class="preview-section">
+                <div id="wallpaper-preview" class="wallpaper-preview style-minimal-dark">
+                    <div id="preview-text-container">
+                        <span id="preview-text">Aesthetic</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls Panel -->
+            <section class="controls-panel glass-card">
+                <div class="control-group">
+                    <label for="text-input">Text</label>
+                    <input type="text" id="text-input" placeholder="Enter your text" value="Aesthetic">
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group half">
+                        <label for="font-selector">Font</label>
+                        <div class="custom-select-wrapper">
+                            <select id="font-selector">
+                                <option value="font-minimal">Minimal</option>
+                                <option value="font-bold">Bold</option>
+                                <option value="font-script">Script</option>
+                                <option value="font-neon">Neon</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group half">
+                        <label>Colors</label>
+                        <div class="color-pickers">
+                            <label class="color-picker-wrapper" title="Text Color">
+                                <input type="color" id="text-color" value="#ffffff">
+                                <span class="color-indicator" id="text-color-indicator" style="background-color: #ffffff;"></span>
+                                <span>T</span>
+                            </label>
+                            <label class="color-picker-wrapper" title="Background Color">
+                                <input type="color" id="bg-color" value="#0f0f13">
+                                <span class="color-indicator" id="bg-color-indicator" style="background-color: #0f0f13;"></span>
+                                <span>B</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Style Theme</label>
+                    <div class="style-grid">
+                        <!-- Free Styles -->
+                        <button class="style-btn active" data-style="style-minimal-dark">Minimal Dark</button>
+                        <button class="style-btn" data-style="style-soft-gradient">Soft Gradient</button>
+                        <button class="style-btn" data-style="style-clean-white">Clean White</button>
+                        
+                        <!-- Premium Styles -->
+                        <button class="style-btn premium-locked" data-style="style-glass-neon">
+                            Glass Neon <span class="lock-icon">🔒</span>
+                        </button>
+                        <button class="style-btn premium-locked" data-style="style-cyberpunk">
+                            Cyberpunk <span class="lock-icon">🔒</span>
+                        </button>
+                        <button class="style-btn premium-locked" data-style="style-anime">
+                            Anime <span class="lock-icon">🔒</span>
+                        </button>
+                        <button class="style-btn premium-locked" data-style="style-luxury">
+                            Luxury <span class="lock-icon">🔒</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="actions-section">
+                <div class="action-row">
+                    <button id="btn-generate" class="action-btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                        Randomize
+                    </button>
+                    <button id="btn-download" class="action-btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </button>
+                </div>
+                <button id="btn-unlock-premium" class="action-btn btn-premium glow-effect">
+                    ✨ Unlock Premium
+                </button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Made with <span>Aesthetica Lab</span></p>
+            <button id="btn-share" class="share-btn">Share App</button>
+        </footer>
+
+        <!-- Modals -->
+        <div id="premium-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-card">
+                <button class="close-modal">&times;</button>
+                <div class="modal-header">
+                    <h2>Unlock Premium</h2>
+                    <p>Get access to all premium aesthetic styles</p>
+                </div>
+                <div class="premium-features">
+                    <div class="feature-item">✓ Glass Neon Style</div>
+                    <div class="feature-item">✓ Cyberpunk Glow Style</div>
+                    <div class="feature-item">✓ Anime Aesthetic Style</div>
+                    <div class="feature-item">✓ Luxury Gold Style</div>
+                </div>
+                <div class="payment-sim">
+                    <p class="price">₹49 Only</p>
+                    <button id="btn-buy-now" class="action-btn btn-primary w-full">Buy Now</button>
+                </div>
+                <div class="activation-code">
+                    <p>Already have a code?</p>
+                    <div class="code-input-group">
+                        <input type="text" id="premium-code-input" placeholder="Enter code">
+                        <button id="btn-activate">Activate</button>
+                    </div>
+                    <p id="code-status-msg" class="status-msg"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
